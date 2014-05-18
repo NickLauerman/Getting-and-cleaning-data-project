@@ -7,10 +7,10 @@ offered on:  Coursera.org
 offered by:  John Hopkins University, Bloomberg School of Public Health
 Instructor:  Jeff Leek, PhD, Roger D. Peng, PhD, Brian Caffo, PhD
 
-Purpose:      This scrip reads in a series of data file based on a collection 
+Purpose:      This script reads in a series of data files based on a collection 
 set, of activity measurement obtain from a Samsun Galaxy S then parses the data
-creating a tidy data set, which is then analysed to produce a seperate data set
-that is a collection of means for the points that are of interest.
+creating a tidy data set, which is then analysed to produce a seperate tidy data 
+set that is a collection of means for the points that are of interest.
 
 To run this script the data structure below witht he data files must be direct attached
 to the working directory with this script in the working directory. The script
