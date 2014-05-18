@@ -203,3 +203,12 @@ names(data) <- sub("mag","Magnitude",names(data))
 
 names(data) <- sub("Bodybody","Body",names(data))
 ```
+
+### Check data
+
+The data should all be between -1 and 1 as the orginal data was normalized in this
+range.
+```{r data check}
+str(data)
+summary(data)
+```
