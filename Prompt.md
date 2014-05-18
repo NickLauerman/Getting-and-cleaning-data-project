@@ -7,8 +7,7 @@ series of yes/no questions related to the project. You will be required to submi
 1. a tidy data set as described below, 
 1. a link to a Github repository with your script for performing the analysis, and 
 1. a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called _CodeBook.md_. 
-
-You should also include a _README.md_ in the repo with your scripts. This repo explains how all 
+1. include a _README.md_ in the repo with your scripts. This repo explains how all 
 of the scripts work and how they are connected.  
 
 
