@@ -741,3 +741,64 @@ summary(data)
 ##  Max.   : 1.000
 ```
 
+
+### Computing the averages and building the final data set
+First an empty data frame is created to recieve the data. This data frame needs the
+same structure as the *data* data frame. To accomplish this the data frame is copied inot the new data frame and then subset
+selecting a subject with id equal to 999999 which is greater than any subject
+id in the data set.
+
+now two nested for loops are created, for subject and activity. within the loop
+a working data frame is subseted for the subject activity part, the
+means of each feature is then computed the final data frame is then updated with
+the results.
+
+
+```r
+subjects <- unique(data$subject)
+activities <- unique(data$activity)
+feature <- names(data)[3:68]
+data.new <- subset(data, subject == 999999)
+for(index_s in seq_along(subjects)){
+     for(index_a in seq_along(activities)){
+          data.temp <- subset(data, subject == subjects[index_s] & activity == activities[index_a])
+          hold <- data.frame(subject = subjects[index_s],
+                             activity = activities[index_a])
+          for(index_f in 3:68){
+               temp <- mean(data.temp[,index_f])
+               data.temp.2 <- data.frame(x = temp)
+               names(data.temp.2) <- names(data)[index_f]
+               hold <- cbind(hold,data.temp.2)               
+          }
+          data.new  <- rbind(data.new,hold)
+     }
+}
+```
+
+
+### cleaning up
+
+```r
+rm(temp)
+rm(activities)
+rm(index)
+rm(index_a)
+rm(index_f)
+rm(index_s)
+rm(subjects)
+rm(feature)
+rm(activity_names)
+rm(data.temp)
+rm(data.temp.2)
+rm(features)
+rm(hold)
+rm(test)
+rm(test_act)
+rm(test_new)
+rm(test_subj)
+rm(train_act)
+rm(train_new)
+rm(train_subj)
+rm(training)
+```
+
