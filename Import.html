@@ -214,7 +214,7 @@ setwd(&quot;c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Get
 <h4>setup</h4>
 
 <p>First the column headers need to be obtained. These are in the <em>features.txt</em>
-file. THis file has two data elements, the first identifies the column that the data is
+file. This file has two data elements, the first identifies the column that the data is
 stored in and the second is the data name. The names contain &ldquo;special&rdquo; figures
 such as paranthes commas and dashs, these can cause problems in when they are used
 in R. To reduce the possiblity of these causing a problem they will be replaced with
@@ -229,22 +229,78 @@ in a row.</p>
                        stringsAsFactors = FALSE)
 # make variable name all lower case
 features$name &lt;- tolower(features$name)
+#
 features$name &lt;- sub(&quot;\\(&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;\\)&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;,&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;-&quot;, &quot;_&quot;,features$name)
+#repeat a second time for names with a second occurance of the special character in them.
 features$name &lt;- sub(&quot;\\(&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;\\)&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;,&quot;, &quot;_&quot;,features$name)
 features$name &lt;- sub(&quot;-&quot;, &quot;_&quot;,features$name)
+# convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
+features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
+features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
 
-features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
+str(features)
 </code></pre>
 
-<p>Now the activities names need to be loaded. The area loaded from the file <em>activity_lables.txt</em></p>
+<pre><code>## &#39;data.frame&#39;:    561 obs. of  2 variables:
+##  $ var_col: int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ name   : chr  &quot;tbodyacc_mean_x&quot; &quot;tbodyacc_mean_y&quot; &quot;tbodyacc_mean_z&quot; &quot;tbodyacc_std_x&quot; ...
+</code></pre>
+
+<p>Now the activities names need to be loaded. The area loaded from the file <em>activity_lables.txt</em>
+the format of this file is that the first column is a key number and the second is the
+activity name. </p>
 
 <p>The will be in a data frame named <strong>activity_names</strong></p>
+
+<pre><code class="r">activity_names &lt;- read.table(&quot;data/activity_labels.txt&quot;,
+                             col.names = c(&quot;key&quot;,&quot;name&quot;),
+                             stringsAsFactors = FALSE)
+activity_names$name &lt;- tolower(activity_names$name)
+str(activity_names)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  2 variables:
+##  $ key : int  1 2 3 4 5 6
+##  $ name: chr  &quot;walking&quot; &quot;walking_upstairs&quot; &quot;walking_downstairs&quot; &quot;sitting&quot; ...
+</code></pre>
+
+<h4>importing the training data set</h4>
+
+<p>The feature data is read from the <em>x_train.txt</em> using the feature labels from the <strong>features</strong> data set
+as the column names. This file is read into the <strong>training</strong> data set.</p>
+
+<p>THe activity identifiers are read from the <em>y_train.txt</em> file and the column is assinged
+the name &ldquo;key&rdquo; and placed into the <strong>train_act</strong> data set.</p>
+
+<pre><code class="r">
+training &lt;- read.table(&quot;data/train/x_train.txt&quot;,
+col.names=features[,2],
+stringsAsFactors = FALSE)
+
+train_act &lt;- read.table(&quot;data/train/y_train.txt&quot;,
+col.names=&quot;key&quot;,
+stringsAsFactors = FALSE)
+</code></pre>
+
+<h3>Combining the two data sets and converting the activity to human readable form</h3>
+
+<p>now we convert the coded activity to a named activity, this is then added to the
+<strong>training</strong> data set with a variable name of &ldquo;activity&rdquo;. The activity column of the 
+combined data set is converted to a factor.</p>
+
+<pre><code class="r">for (index in 1:nrow(train_act)){
+train_act$key[index] &lt;- activity_names$name[as.numeric(train_act$key[index])]
+}
+names(train_act) &lt;- &quot;activity&quot;
+
+training &lt;- cbind(train_act,training)
+training$activity  &lt;- as.factor(training$activity)
+</code></pre>
 
 </body>
 

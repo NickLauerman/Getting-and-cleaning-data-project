@@ -59,4 +59,41 @@ activity_names <- read.table("data/activity_labels.txt",
                              col.names = c("key","name"),
                              stringsAsFactors = FALSE)
 activity_names$name <- tolower(activity_names$name)
+str(activity_names)
 ```
+
+#### importing the training data set
+The feature data is read from the *x_train.txt* using the feature labels from the **features** data set
+as the column names. This file is read into the **training** data set.
+
+THe activity identifiers are read from the *y_train.txt* file and the column is assinged
+the name "key" and placed into the **train_act** data set.
+```{r importing training data sets,cache=TRUE,cache.path="c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data-project/cache/"}
+
+training <- read.table("data/train/x_train.txt",
+col.names=features[,2],
+stringsAsFactors = FALSE)
+
+train_act <- read.table("data/train/y_train.txt",
+col.names="key",
+stringsAsFactors = FALSE)
+```
+
+### Combining the two data sets and converting the activity to human readable form
+now we convert the coded activity to a named activity, this is then added to the
+**training** data set with a variable name of "activity". The activity column of the 
+combined data set is converted to a factor.
+
+```{r train activity decoding}
+for (index in 1:nrow(train_act)){
+train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
+}
+names(train_act) <- "activity"
+
+training <- cbind(train_act,training)
+training$activity  <- as.factor(training$activity)
+
+```
+
+
+
