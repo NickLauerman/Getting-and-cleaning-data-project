@@ -164,3 +164,42 @@ data <- rbind(train_new,test_new)
 data$activity <- as.factor(data$activity)
 ```
 
+### Changing the features name
+
+The following naming convention is used for feature names:
+
+1. a dot seperates the domain from the actual measurement name
+1. a dot seperates the actual measurement name from the identification of the statistical measurement
+1. a dot seperates the statistical measurement from the axis that the measurement is taken
+
+For example TimeDomain.BodyAccelerometer.Mean.x is the feature that indicates the mean
+of the Body Acceleratometer measurement in the x axis.
+
+Additionally the names of each section are converted to hump style naming to assist
+in readability.
+
+Finally a namming error that resulted in some features having "Bodybody" are changed to 
+"Body"
+```{r naming}
+names(data) <-sub("^t","TimeDomain.",names(data))
+names(data) <-sub("^f","FrequencyDomain.",names(data))
+names(data) <- sub("\\.\\.","\\.",names(data))
+names(data) <- sub("\\.\\.\\.","\\.",names(data))
+names(data) <- sub("\\.\\.","\\.",names(data))
+names(data) <- sub("body","Body",names(data))
+names(data) <- sub("gravity","Gravity",names(data))
+names(data) <- sub("acc","Accelerometer",names(data))
+names(data) <- sub("gyro","Gyroscope",names(data))
+
+names(data) <- sub("mean","Mean",names(data))
+names(data) <- sub("std","StandardDeviation",names(data))
+
+names(data) <- sub("jerk","Jerk",names(data))
+names(data) <- sub("mag","Magnitude",names(data))
+
+# correct a naming convention error in the orginal data set were some variables
+# were names "...bodybody..." instead of "...body..." as described in the 
+# features_info.txt file subblied with the data
+
+names(data) <- sub("Bodybody","Body",names(data))
+```
