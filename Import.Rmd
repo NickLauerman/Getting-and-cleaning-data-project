@@ -50,7 +50,6 @@ features$name <- sub("-", ".",features$name)
 #features$name <- sub("..", ".",features$name)
 #features$name <- sub("..", ".",features$name)
 
-str(features)
 ```
 Now the activities names need to be loaded. The area loaded from the file *activity_lables.txt*
 the format of this file is that the first column is a key number and the second is the

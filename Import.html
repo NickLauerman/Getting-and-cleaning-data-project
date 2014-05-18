@@ -192,21 +192,9 @@ hljs.initHighlightingOnLoad();
 <ol>
 <li>sets the tide, figure width and height options for all code chucks unless 
 overwriten</li>
-<li>sets the path to the working directory, this will need to be dealt with in the script</li>
 </ol>
 
 <pre><code class="r">opts_chunk$set(tidy = FALSE, fig.width = 5, fig.height = 5)
-
-setwd(&quot;c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data/project&quot;)
-</code></pre>
-
-<pre><code>## Error: cannot change working directory
-</code></pre>
-
-<pre><code class="r">getwd()
-</code></pre>
-
-<pre><code>## [1] &quot;C:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data-project&quot;
 </code></pre>
 
 <h3>Importing Data</h3>
@@ -246,13 +234,6 @@ features$name &lt;- sub(&quot;-&quot;, &quot;.&quot;,features$name)
 ## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
 #features$name &lt;- sub(&quot;..&quot;, &quot;.&quot;,features$name)
 #features$name &lt;- sub(&quot;..&quot;, &quot;.&quot;,features$name)
-
-str(features)
-</code></pre>
-
-<pre><code>## &#39;data.frame&#39;:    561 obs. of  2 variables:
-##  $ var_col: int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ name   : chr  &quot;tbodyacc.mean...x&quot; &quot;tbodyacc.mean...y&quot; &quot;tbodyacc.mean...z&quot; &quot;tbodyacc.std...x&quot; ...
 </code></pre>
 
 <p>Now the activities names need to be loaded. The area loaded from the file <em>activity_lables.txt</em>
@@ -265,12 +246,6 @@ activity name. </p>
                              col.names = c(&quot;key&quot;,&quot;name&quot;),
                              stringsAsFactors = FALSE)
 activity_names$name &lt;- tolower(activity_names$name)
-str(activity_names)
-</code></pre>
-
-<pre><code>## &#39;data.frame&#39;:    6 obs. of  2 variables:
-##  $ key : int  1 2 3 4 5 6
-##  $ name: chr  &quot;walking&quot; &quot;walking_upstairs&quot; &quot;walking_downstairs&quot; &quot;sitting&quot; ...
 </code></pre>
 
 <h3>Importing and selection the Training data set</h3>

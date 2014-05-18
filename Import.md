@@ -6,25 +6,13 @@ this section has setup information for the project and for RMarkdown
 
 1. sets the tide, figure width and height options for all code chucks unless 
 overwriten
-1. sets the path to the working directory, this will need to be dealt with in the script
+
 
 ```r
 opts_chunk$set(tidy = FALSE, fig.width = 5, fig.height = 5)
-
-setwd("c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data/project")
 ```
 
-```
-## Error: cannot change working directory
-```
 
-```r
-getwd()
-```
-
-```
-## [1] "C:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data-project"
-```
 
 ### Importing Data
 
@@ -64,14 +52,6 @@ features$name <- sub("-", ".",features$name)
 ## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
 #features$name <- sub("..", ".",features$name)
 #features$name <- sub("..", ".",features$name)
-
-str(features)
-```
-
-```
-## 'data.frame':	561 obs. of  2 variables:
-##  $ var_col: int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ name   : chr  "tbodyacc.mean...x" "tbodyacc.mean...y" "tbodyacc.mean...z" "tbodyacc.std...x" ...
 ```
 
 Now the activities names need to be loaded. The area loaded from the file *activity_lables.txt*
@@ -85,13 +65,6 @@ activity_names <- read.table("data/activity_labels.txt",
                              col.names = c("key","name"),
                              stringsAsFactors = FALSE)
 activity_names$name <- tolower(activity_names$name)
-str(activity_names)
-```
-
-```
-## 'data.frame':	6 obs. of  2 variables:
-##  $ key : int  1 2 3 4 5 6
-##  $ name: chr  "walking" "walking_upstairs" "walking_downstairs" "sitting" ...
 ```
 
 
