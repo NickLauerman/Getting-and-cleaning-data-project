@@ -6,13 +6,12 @@ this section has setup information for the project and for RMarkdown
 
 1. sets the tide, figure width and height options for all code chucks unless 
 overwriten
-1. sets the path to the working directory, this will need to be dealt with in the script
+
 ```{r workset up}
 opts_chunk$set(tidy=FALSE,fig.width=5,fig.height=5)
-
-setwd("c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data/project")
-getwd()
 ```
+
+
 ### Importing Data
 
 #### setup
@@ -63,7 +62,7 @@ activity_names <- read.table("data/activity_labels.txt",
                              col.names = c("key","name"),
                              stringsAsFactors = FALSE)
 activity_names$name <- tolower(activity_names$name)
-str(activity_names)
+
 ```
 
 ### Importing and selection the Training data set
