@@ -31,12 +31,16 @@ getwd()
 #### setup
 First the column headers need to be obtained. These are in the *features.txt*
 file. This file has two data elements, the first identifies the column that the data is
-stored in and the second is the data name. The names contain "special" figures
+stored in and the second is the data name. 
+
+The names contain "special" figures
 such as paranthes commas and dashs, these can cause problems in when they are used
 in R. To reduce the possiblity of these causing a problem they will be replaced with
 an underscore. Once they have been replaced with an underscore any double underscores will be 
 replaced with a single underscore so that no name has more an a single underscore 
-in a row.
+in a row. This will need to be accomplished later in the workflow as the special
+charaters will assist in identifing the specific row that need to be placed in
+the final data set.
 
 This data will be in the **features** data frame.
 
@@ -48,18 +52,18 @@ features <- read.table("data/features.txt",
 # make variable name all lower case
 features$name <- tolower(features$name)
 #
-features$name <- sub("\\(", "_",features$name)
-features$name <- sub("\\)", "_",features$name)
-features$name <- sub(",", "_",features$name)
-features$name <- sub("-", "_",features$name)
+features$name <- sub("\\(", ".",features$name)
+features$name <- sub("\\)", ".",features$name)
+features$name <- sub(",", ".",features$name)
+features$name <- sub("-", ".",features$name)
 #repeat a second time for names with a second occurance of the special character in them.
-features$name <- sub("\\(", "_",features$name)
-features$name <- sub("\\)", "_",features$name)
-features$name <- sub(",", "_",features$name)
-features$name <- sub("-", "_",features$name)
-# convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
-features$name <- sub("__", "_",features$name)
-features$name <- sub("__", "_",features$name)
+features$name <- sub("\\(", ".",features$name)
+features$name <- sub("\\)", ".",features$name)
+features$name <- sub(",", ".",features$name)
+features$name <- sub("-", ".",features$name)
+## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
+#features$name <- sub("..", ".",features$name)
+#features$name <- sub("..", ".",features$name)
 
 str(features)
 ```
@@ -67,7 +71,7 @@ str(features)
 ```
 ## 'data.frame':	561 obs. of  2 variables:
 ##  $ var_col: int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ name   : chr  "tbodyacc_mean_x" "tbodyacc_mean_y" "tbodyacc_mean_z" "tbodyacc_std_x" ...
+##  $ name   : chr  "tbodyacc.mean...x" "tbodyacc.mean...y" "tbodyacc.mean...z" "tbodyacc.std...x" ...
 ```
 
 Now the activities names need to be loaded. The area loaded from the file *activity_lables.txt*
@@ -91,6 +95,7 @@ str(activity_names)
 ```
 
 
+### Importing and selection the Training data set
 #### importing the training data set
 The feature data is read from the *x_train.txt* using the feature labels from the **features** data set
 as the column names. This file is read into the **training** data set.
@@ -101,16 +106,20 @@ the name "key" and placed into the **train_act** data set.
 ```r
 
 training <- read.table("data/train/x_train.txt",
-col.names=features[,2],
-stringsAsFactors = FALSE)
+                       col.names=features[,2],
+                       stringsAsFactors = FALSE)
 
 train_act <- read.table("data/train/y_train.txt",
-col.names="key",
-stringsAsFactors = FALSE)
+                        col.names="key",
+                        stringsAsFactors = FALSE)
+
+train_subj <- read.table("data/train/subject_train.txt",
+                         col.names="subject",
+                         stringsAsFactors = FALSE)
 ```
 
 
-### Combining the two data sets and converting the activity to human readable form
+#### Combining the two data sets and converting the activity to human readable form
 now we convert the coded activity to a named activity, this is then added to the
 **training** data set with a variable name of "activity". The activity column of the 
 combined data set is converted to a factor.
@@ -123,9 +132,75 @@ train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
 names(train_act) <- "activity"
 
 training <- cbind(train_act,training)
-training$activity  <- as.factor(training$activity)
+training <- cbind(train_subj,training)
+#training$activity  <- as.factor(training$activity)
 ```
 
 
+#### extracting the desired data elements
+
+The activity, mean and standard deviation of the measurements are need in the final data set.
+
+Data elements with the term ".mean.." and ".std.." in their name will be selected, This
+is equivalent to the orginal names of "mean()" and "std()" lead by and underscore.
+The activity column is also selected.
+
+```r
+train_new <- training[,c(grep("subject",names(training)),
+                         grep("activity",names(training)),
+                         grep("\\.mean\\.\\.", names(training)),
+                         grep("\\.std\\.\\.",  names(training))
+                         )
+                      ]
+```
+
+
+### Importing and selecting the test data set
+
+Repeat the above but on test
+
+
+```r
+#read in
+test <- read.table("data/test/x_test.txt",
+                   col.names=features[,2],
+                   stringsAsFactors = FALSE)
+
+test_act <- read.table("data/test/y_test.txt",
+                       col.names="key",
+                       stringsAsFactors = FALSE)
+test_subj <- read.table("data/test/subject_test.txt",
+                        col.names="subject",
+                        stringsAsFactors = FALSE)
+
+# activities decoded
+for (index in 1:nrow(test_act)){
+     test_act$key[index] <- activity_names$name[as.numeric(test_act$key[index])]
+     }
+names(test_act) <- "activity"
+
+test <- cbind(test_act,test)
+test <- cbind(test_subj,test)
+
+#test$activity  <- as.factor(training$activity)
+
+# extract
+test_new <- test[,c(grep("subject",names(test)),
+                    grep("activity",names(test)),
+                    grep("\\.mean\\.\\.", names(test)),
+                    grep("\\.std\\.\\.",  names(test))
+                    )
+                 ]
+```
+
+
+### Combine the Test and Train dataset
+the two data sets generated so far are now combined. Once they are combined the
+activity variable is converted to a factor.
+
+```r
+data <- rbind(train_new,test_new)
+data$activity <- as.factor(data$activity)
+```
 
 

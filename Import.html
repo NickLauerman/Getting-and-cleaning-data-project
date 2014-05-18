@@ -215,12 +215,16 @@ setwd(&quot;c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Get
 
 <p>First the column headers need to be obtained. These are in the <em>features.txt</em>
 file. This file has two data elements, the first identifies the column that the data is
-stored in and the second is the data name. The names contain &ldquo;special&rdquo; figures
+stored in and the second is the data name. </p>
+
+<p>The names contain &ldquo;special&rdquo; figures
 such as paranthes commas and dashs, these can cause problems in when they are used
 in R. To reduce the possiblity of these causing a problem they will be replaced with
 an underscore. Once they have been replaced with an underscore any double underscores will be 
 replaced with a single underscore so that no name has more an a single underscore 
-in a row.</p>
+in a row. This will need to be accomplished later in the workflow as the special
+charaters will assist in identifing the specific row that need to be placed in
+the final data set.</p>
 
 <p>This data will be in the <strong>features</strong> data frame.</p>
 
@@ -230,25 +234,25 @@ in a row.</p>
 # make variable name all lower case
 features$name &lt;- tolower(features$name)
 #
-features$name &lt;- sub(&quot;\\(&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;\\)&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;,&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;-&quot;, &quot;_&quot;,features$name)
+features$name &lt;- sub(&quot;\\(&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;\\)&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;,&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;-&quot;, &quot;.&quot;,features$name)
 #repeat a second time for names with a second occurance of the special character in them.
-features$name &lt;- sub(&quot;\\(&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;\\)&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;,&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;-&quot;, &quot;_&quot;,features$name)
-# convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
-features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
-features$name &lt;- sub(&quot;__&quot;, &quot;_&quot;,features$name)
+features$name &lt;- sub(&quot;\\(&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;\\)&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;,&quot;, &quot;.&quot;,features$name)
+features$name &lt;- sub(&quot;-&quot;, &quot;.&quot;,features$name)
+## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
+#features$name &lt;- sub(&quot;..&quot;, &quot;.&quot;,features$name)
+#features$name &lt;- sub(&quot;..&quot;, &quot;.&quot;,features$name)
 
 str(features)
 </code></pre>
 
 <pre><code>## &#39;data.frame&#39;:    561 obs. of  2 variables:
 ##  $ var_col: int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ name   : chr  &quot;tbodyacc_mean_x&quot; &quot;tbodyacc_mean_y&quot; &quot;tbodyacc_mean_z&quot; &quot;tbodyacc_std_x&quot; ...
+##  $ name   : chr  &quot;tbodyacc.mean...x&quot; &quot;tbodyacc.mean...y&quot; &quot;tbodyacc.mean...z&quot; &quot;tbodyacc.std...x&quot; ...
 </code></pre>
 
 <p>Now the activities names need to be loaded. The area loaded from the file <em>activity_lables.txt</em>
@@ -269,6 +273,8 @@ str(activity_names)
 ##  $ name: chr  &quot;walking&quot; &quot;walking_upstairs&quot; &quot;walking_downstairs&quot; &quot;sitting&quot; ...
 </code></pre>
 
+<h3>Importing and selection the Training data set</h3>
+
 <h4>importing the training data set</h4>
 
 <p>The feature data is read from the <em>x_train.txt</em> using the feature labels from the <strong>features</strong> data set
@@ -279,15 +285,19 @@ the name &ldquo;key&rdquo; and placed into the <strong>train_act</strong> data s
 
 <pre><code class="r">
 training &lt;- read.table(&quot;data/train/x_train.txt&quot;,
-col.names=features[,2],
-stringsAsFactors = FALSE)
+                       col.names=features[,2],
+                       stringsAsFactors = FALSE)
 
 train_act &lt;- read.table(&quot;data/train/y_train.txt&quot;,
-col.names=&quot;key&quot;,
-stringsAsFactors = FALSE)
+                        col.names=&quot;key&quot;,
+                        stringsAsFactors = FALSE)
+
+train_subj &lt;- read.table(&quot;data/train/subject_train.txt&quot;,
+                         col.names=&quot;subject&quot;,
+                         stringsAsFactors = FALSE)
 </code></pre>
 
-<h3>Combining the two data sets and converting the activity to human readable form</h3>
+<h4>Combining the two data sets and converting the activity to human readable form</h4>
 
 <p>now we convert the coded activity to a named activity, this is then added to the
 <strong>training</strong> data set with a variable name of &ldquo;activity&rdquo;. The activity column of the 
@@ -299,7 +309,69 @@ train_act$key[index] &lt;- activity_names$name[as.numeric(train_act$key[index])]
 names(train_act) &lt;- &quot;activity&quot;
 
 training &lt;- cbind(train_act,training)
-training$activity  &lt;- as.factor(training$activity)
+training &lt;- cbind(train_subj,training)
+#training$activity  &lt;- as.factor(training$activity)
+</code></pre>
+
+<h4>extracting the desired data elements</h4>
+
+<p>The activity, mean and standard deviation of the measurements are need in the final data set.</p>
+
+<p>Data elements with the term &ldquo;.mean..&rdquo; and &ldquo;.std..&rdquo; in their name will be selected, This
+is equivalent to the orginal names of &ldquo;mean()&rdquo; and &ldquo;std()&rdquo; lead by and underscore.
+The activity column is also selected.</p>
+
+<pre><code class="r">train_new &lt;- training[,c(grep(&quot;subject&quot;,names(training)),
+                         grep(&quot;activity&quot;,names(training)),
+                         grep(&quot;\\.mean\\.\\.&quot;, names(training)),
+                         grep(&quot;\\.std\\.\\.&quot;,  names(training))
+                         )
+                      ]
+</code></pre>
+
+<h3>Importing and selecting the test data set</h3>
+
+<p>Repeat the above but on test</p>
+
+<pre><code class="r">#read in
+test &lt;- read.table(&quot;data/test/x_test.txt&quot;,
+                   col.names=features[,2],
+                   stringsAsFactors = FALSE)
+
+test_act &lt;- read.table(&quot;data/test/y_test.txt&quot;,
+                       col.names=&quot;key&quot;,
+                       stringsAsFactors = FALSE)
+test_subj &lt;- read.table(&quot;data/test/subject_test.txt&quot;,
+                        col.names=&quot;subject&quot;,
+                        stringsAsFactors = FALSE)
+
+# activities decoded
+for (index in 1:nrow(test_act)){
+     test_act$key[index] &lt;- activity_names$name[as.numeric(test_act$key[index])]
+     }
+names(test_act) &lt;- &quot;activity&quot;
+
+test &lt;- cbind(test_act,test)
+test &lt;- cbind(test_subj,test)
+
+#test$activity  &lt;- as.factor(training$activity)
+
+# extract
+test_new &lt;- test[,c(grep(&quot;subject&quot;,names(test)),
+                    grep(&quot;activity&quot;,names(test)),
+                    grep(&quot;\\.mean\\.\\.&quot;, names(test)),
+                    grep(&quot;\\.std\\.\\.&quot;,  names(test))
+                    )
+                 ]
+</code></pre>
+
+<h3>Combine the Test and Train dataset</h3>
+
+<p>the two data sets generated so far are now combined. Once they are combined the
+activity variable is converted to a factor.</p>
+
+<pre><code class="r">data &lt;- rbind(train_new,test_new)
+data$activity &lt;- as.factor(data$activity)
 </code></pre>
 
 </body>
