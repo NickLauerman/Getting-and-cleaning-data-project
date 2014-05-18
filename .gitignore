@@ -11,3 +11,6 @@
 
 # compressed/zip files
 *.zip
+
+# to stay local
+Notes.txt
