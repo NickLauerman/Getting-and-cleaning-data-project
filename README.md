@@ -5,6 +5,7 @@ script for peer project for ***Getting and Cleaning Data***
 offered on:  Coursera.org
 
 offered by:  John Hopkins University, Bloomberg School of Public Health
+
 Instructor:  Jeff Leek, PhD, Roger D. Peng, PhD, Brian Caffo, PhD
 
 Purpose:      This script reads in a series of data files based on a collection 
