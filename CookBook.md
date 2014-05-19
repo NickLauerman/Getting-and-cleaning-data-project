@@ -128,9 +128,11 @@ will be described giving the variable nameing convention and general information
 
 THe other varables are described first and individually.
 
-Variable |Variable     |Data   |Data|
-name     |Description  |Type   |Information|
----------|--------------|------|-----------|
-subject | Subject Identification|interger|Range 1 to 30|
-        | number.               |        |there is no data conecting this to an specific individual|
+Variable name|Variable Description    |Data Type    |Data Information|
+-------------------|----------------------------------|---------------|----------------|
+subject | Subject Identification number.|interger|Range 1 to 30 - there is no data conecting this to an specific individual|
+activity|activity being performed |factor with |levels: 
+ |during measurement|6 levels | **"laying"**, **"sitting"**, **"standing"**,  **"walking"**, **"walking_downstairs"**, **"walking_upstairs"**
+ 
+The vairable associated with features
         
