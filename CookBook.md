@@ -131,8 +131,8 @@ THe other varables are described first and individually.
 Variable name|Variable Description    |Data Type    |Data Information|
 -------------------|----------------------------------|---------------|----------------|
 subject | Subject Identification number.|interger|Range 1 to 30 - there is no data conecting this to an specific individual|
-activity|activity being performed during measurement|factor with 6 levels|levels: 
- || | **"laying"**, **"sitting"**, **"standing"**,  **"walking"**, **"walking_downstairs"**, **"walking_upstairs"**
+activity|activity being performed during measurement|factor with 6 levels|levels:  **"laying"**, **"sitting"**, **"standing"**,  **"walking"**, **"walking_downstairs"**, **"walking_upstairs"**
+
  
 The vairable associated with features
         
