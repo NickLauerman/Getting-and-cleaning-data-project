@@ -46,6 +46,21 @@ deviations reported.
 data.new: which contains the average for each selected feature selected in the 
 data data frame by subject and activity.
 
-Detials of how the sscript functions can be found in the run_analysis.md file
-in this repo. Detials of the data and selection, naming, filtering and processing
-can be found in the CodeBook.md file in this repo. 
+Details of how the script functions can be found in the run_analysis.md file
+in this repo. Details of the data, selection, naming, filtering and processing
+along with a high level description of how the code functions can be found in 
+the CodeBook.md file in this repo. 
+
+This repro contain the following files:
+
+file|purpose
+----|--------
+.gitignore|a file used by git to exclude certian files from the git repro.
+CodeBook.md|A markdown file that descripes the data processing and data with this project.
+Prompt.md|A markdown file that has the instructions for the project.
+README.md|This file
+run_analysis.R|the R Script for this project (commented)
+run_analysis.Rmd|A RMarkdown file that explains the operation of the script that can be run on any computer that supports R and ideally RStudio.
+run_analysis.md|A markdown file that shows the code in the script and explains the processing. Produced in RStudio from the *run_analysis.Rmd* file.
+data directory|the source data for this analysis.
+data_final.txt|A tab delinated copy of the final tidy data set produced.

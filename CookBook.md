@@ -121,7 +121,7 @@ data frames ti produced along with variables that are no longer needed. This was
 left to the end of the script to allow for an easy adjustment if in the future 
 one or more of these items are needed.
 
-## Data Naming Conventations Used
+## Data Naming Conventations Used and a description of the data.
 
 The same variable naming conventations are used for both data frames. The features
 will be described giving the variable nameing convention and general information about the variables. The final data set contains 66 features.
@@ -134,5 +134,109 @@ subject | Subject Identification number.|interger|Range 1 to 30 - there is no da
 activity|activity being performed during measurement|factor with 6 levels|levels:  *laying*, *sitting*, *standing*,  *walking*, *walking_downstairs*, and *walking_upstairs*
 
  
-The vairable associated with features
-        
+The vairables associated with features are named in four part seperated by a dot. Additionally the 
+first letter of each word within any part is capitilized to add in reading. 
+
+Here are two examples ***FrequencyDomain.BodyGyroscope.StandardDeviation.y*** and
+***TimeDomain.BodyGyroscopeJerkMagnitude.StandardDeviation.***
+
+The first part identifies if the variable was dirived from ***Time Domain*** or ***Frequency Domain*** 
+data and uses the complete first words without spaces.
+
+The second section has a couple sub section the first identifies if the variable is based on body movement (***Body***) or gravititional accelateration (***Gravity***).
+
+The next thing identified is the source of the identifies which sensor within the
+Samsung Galaxy S was used and can have the values of ***Acceleromete***r or ***Gyroscope***.
+
+The final element in the second section identifies if the data was derived from 
+jerk or rapid change in motion and this is identified as ***Jerk***.
+
+The third section identifies if the data is a ***Mean*** or a ***Standard Deviation***, again without
+spaces. 
+
+The forth and final section identify what axis the motions was measured in and has
+the values of ***x***,***y***, or ***z***. Some of the variables do not have a
+vector direction so this identifier is not included in the name.
+
+Using the first example the variable name decodes to a standard deviation of the 
+measurement from the frequency domain derived gyroscope motion of the body in the 
+y axis.
+
+The data from these features was normalized and bounded by the orginal authors to
+to lay between -1 and 1.
+
+There is a list of all the features variable names that are included in the final 
+data set (**data,new**) for which mean values were computed.
+
+*TimeDomain.BodyAccelerometer.Mean.x                              
+*TimeDomain.BodyAccelerometer.Mean.y                              
+*TimeDomain.BodyAccelerometer.Mean.z                              
+*TimeDomain.GravityAccelerometer.Mean.x                           
+*TimeDomain.GravityAccelerometer.Mean.y                           
+*TimeDomain.GravityAccelerometer.Mean.z                           
+*TimeDomain.BodyAccelerometerJerk.Mean.x                          
+*TimeDomain.BodyAccelerometerJerk.Mean.y                          
+*TimeDomain.BodyAccelerometerJerk.Mean.z                          
+*TimeDomain.BodyGyroscope.Mean.x                                  
+*TimeDomain.BodyGyroscope.Mean.y                                  
+*TimeDomain.BodyGyroscope.Mean.z                                  
+*TimeDomain.BodyGyroscopeJerk.Mean.x                              
+*TimeDomain.BodyGyroscopeJerk.Mean.y                              
+*TimeDomain.BodyGyroscopeJerk.Mean.z                              
+*TimeDomain.BodyAccelerometerMagnitude.Mean.                      
+*TimeDomain.GravityAccelerometerMagnitude.Mean.                   
+*TimeDomain.BodyAccelerometerJerkMagnitude.Mean.                  
+*TimeDomain.BodyGyroscopeMagnitude.Mean.                          
+*TimeDomain.BodyGyroscopeJerkMagnitude.Mean.                      
+*FrequencyDomain.BodyAccelerometer.Mean.x                         
+*FrequencyDomain.BodyAccelerometer.Mean.y                         
+**FrequencyDomain.BodyAccelerometer.Mean.z                         
+*FrequencyDomain.BodyAccelerometerJerk.Mean.x                     
+*FrequencyDomain.BodyAccelerometerJerk.Mean.y                     
+*FrequencyDomain.BodyAccelerometerJerk.Mean.z                     
+*FrequencyDomain.BodyGyroscope.Mean.x                             
+*FrequencyDomain.BodyGyroscope.Mean.y                             
+*FrequencyDomain.BodyGyroscope.Mean.z                             
+*FrequencyDomain.BodyAccelerometerMagnitude.Mean.                 
+*FrequencyDomain.BodyAccelerometerJerkMagnitude.Mean.             
+*FrequencyDomain.BodyGyroscopeMagnitude.Mean.                     
+*FrequencyDomain.BodyGyroscopeJerkMagnitude.Mean.                 
+*TimeDomain.BodyAccelerometer.StandardDeviation.x                 
+*TimeDomain.BodyAccelerometer.StandardDeviation.y                 
+*TimeDomain.BodyAccelerometer.StandardDeviation.z                 
+*TimeDomain.GravityAccelerometer.StandardDeviation.x              
+*TimeDomain.GravityAccelerometer.StandardDeviation.y              
+*TimeDomain.GravityAccelerometer.StandardDeviation.z              
+*TimeDomain.BodyAccelerometerJerk.StandardDeviation.x             
+*TimeDomain.BodyAccelerometerJerk.StandardDeviation.y             
+*TimeDomain.BodyAccelerometerJerk.StandardDeviation.z             
+*TimeDomain.BodyGyroscope.StandardDeviation.x                     
+*TimeDomain.BodyGyroscope.StandardDeviation.y                     
+*TimeDomain.BodyGyroscope.StandardDeviation.z                     
+*TimeDomain.BodyGyroscopeJerk.StandardDeviation.x                 
+*imeDomain.BodyGyroscopeJerk.StandardDeviation.y                 
+*TimeDomain.BodyGyroscopeJerk.StandardDeviation.z                 
+*TimeDomain.BodyAccelerometerMagnitude.StandardDeviation.         
+*TimeDomain.GravityAccelerometerMagnitude.StandardDeviation.      
+*TimeDomain.BodyAccelerometerJerkMagnitude.StandardDeviation.     
+*TimeDomain.BodyGyroscopeMagnitude.StandardDeviation.             
+*TimeDomain.BodyGyroscopeJerkMagnitude.StandardDeviation.         
+*FrequencyDomain.BodyAccelerometer.StandardDeviation.x            
+*FrequencyDomain.BodyAccelerometer.StandardDeviation.y            
+*FrequencyDomain.BodyAccelerometer.StandardDeviation.z            
+*FrequencyDomain.BodyAccelerometerJerk.StandardDeviation.x        
+*FrequencyDomain.BodyAccelerometerJerk.StandardDeviation.y        
+*FrequencyDomain.BodyAccelerometerJerk.StandardDeviation.z        
+*FrequencyDomain.BodyGyroscope.StandardDeviation.x                
+*FrequencyDomain.BodyGyroscope.StandardDeviation.y                
+*FrequencyDomain.BodyGyroscope.StandardDeviation.z                
+*FrequencyDomain.BodyAccelerometerMagnitude.StandardDeviation.    
+*FrequencyDomain.BodyAccelerometerJerkMagnitude.StandardDeviation.
+*FrequencyDomain.BodyGyroscopeMagnitude.StandardDeviation.
+*FrequencyDomain.BodyGyroscopeJerkMagnitude.StandardDeviation.
+
+### Observation about the published data set as downloaded
+THe orginal authors appeared to have repeated variable names in a couple locations
+as these were for energy bands and didn't contain mean or standard devation data
+that this project was using they duplicate feature/variable names didn't effect
+this project and were ignored.
