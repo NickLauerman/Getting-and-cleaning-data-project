@@ -1,6 +1,6 @@
-Project
+Peer/Class Project
 ===
-getting and cleaning data - class/peer project
+Getting and Cleaning Data
 -----
 this section has setup information for the project and for RMarkdown
 
@@ -46,10 +46,6 @@ features$name <- sub("\\(", ".",features$name)
 features$name <- sub("\\)", ".",features$name)
 features$name <- sub(",", ".",features$name)
 features$name <- sub("-", ".",features$name)
-## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
-#features$name <- sub("..", ".",features$name)
-#features$name <- sub("..", ".",features$name)
-
 ```
 Now the activities names need to be loaded. The area loaded from the file *activity_lables.txt*
 the format of this file is that the first column is a key number and the second is the
@@ -71,7 +67,7 @@ as the column names. This file is read into the **training** data set.
 
 THe activity identifiers are read from the *y_train.txt* file and the column is assinged
 the name "key" and placed into the **train_act** data set.
-```{r importing training data sets,cache=TRUE,cache.path="c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data-project/cache/"}
+```{r importing training data sets}
 
 training <- read.table("data/train/x_train.txt",
                        col.names=features[,2],
@@ -93,14 +89,12 @@ combined data set is converted to a factor.
 
 ```{r train activity decoding}
 for (index in 1:nrow(train_act)){
-train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
-}
+     train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
+     }
 names(train_act) <- "activity"
 
 training <- cbind(train_act,training)
 training <- cbind(train_subj,training)
-#training$activity  <- as.factor(training$activity)
-
 ```
 
 #### extracting the desired data elements
@@ -123,7 +117,7 @@ train_new <- training[,c(grep("subject",names(training)),
 
 Repeat the above but on test
 
-```{r Combined test data set, cache=TRUE,cache.path="c:/Users/Nicholas/Google Drive/R class/getting and cleaning data/Getting-and-cleaning-data-project/cache/"}
+```{r Combined test data set}
 #read in
 test <- read.table("data/test/x_test.txt",
                    col.names=features[,2],
@@ -190,10 +184,8 @@ names(data) <- sub("body","Body",names(data))
 names(data) <- sub("gravity","Gravity",names(data))
 names(data) <- sub("acc","Accelerometer",names(data))
 names(data) <- sub("gyro","Gyroscope",names(data))
-
 names(data) <- sub("mean","Mean",names(data))
 names(data) <- sub("std","StandardDeviation",names(data))
-
 names(data) <- sub("jerk","Jerk",names(data))
 names(data) <- sub("mag","Magnitude",names(data))
 

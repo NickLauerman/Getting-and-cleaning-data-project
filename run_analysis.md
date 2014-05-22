@@ -1,6 +1,6 @@
-Project
+Peer/Class Project
 ===
-getting and cleaning data - class/peer project
+Getting and Cleaning Data
 -----
 this section has setup information for the project and for RMarkdown
 
@@ -49,9 +49,6 @@ features$name <- sub("\\(", ".",features$name)
 features$name <- sub("\\)", ".",features$name)
 features$name <- sub(",", ".",features$name)
 features$name <- sub("-", ".",features$name)
-## convert a double underscore to a single under score. Needs to be repeated to catch 3 underscores becoming 2
-#features$name <- sub("..", ".",features$name)
-#features$name <- sub("..", ".",features$name)
 ```
 
 Now the activities names need to be loaded. The area loaded from the file *activity_lables.txt*
@@ -100,13 +97,12 @@ combined data set is converted to a factor.
 
 ```r
 for (index in 1:nrow(train_act)){
-train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
-}
+     train_act$key[index] <- activity_names$name[as.numeric(train_act$key[index])]
+     }
 names(train_act) <- "activity"
 
 training <- cbind(train_act,training)
 training <- cbind(train_subj,training)
-#training$activity  <- as.factor(training$activity)
 ```
 
 
@@ -204,10 +200,8 @@ names(data) <- sub("body","Body",names(data))
 names(data) <- sub("gravity","Gravity",names(data))
 names(data) <- sub("acc","Accelerometer",names(data))
 names(data) <- sub("gyro","Gyroscope",names(data))
-
 names(data) <- sub("mean","Mean",names(data))
 names(data) <- sub("std","StandardDeviation",names(data))
-
 names(data) <- sub("jerk","Jerk",names(data))
 names(data) <- sub("mag","Magnitude",names(data))
 
